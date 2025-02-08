@@ -1,0 +1,24 @@
+# Node.js 관련 폴더
+node_modules/
+.next/
+.DS_Store
+
+# 환경 설정 파일
+.env
+.env.local
+.env.production
+
+# IDE 설정 파일
+.idea/
+.vscode/
+
+# 로그 파일
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 빌드 출력물
+dist/
+out/
+node_modules/
