@@ -1,9 +1,6 @@
 "use server";
 import { z } from "zod"; // 백엔드에서 유효성 검사를 하기 유용한 라이브러리
-
-const passwordRegex = new RegExp(
-  /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*?[#?!@$%^&*-]).+$/,
-);
+import { PASSWORD_REGEX, PASSWORD_MIN_LENGTH } from "@/lib/constants";
 
 const checkUsername = (username: string) => !username.includes("potato");
 const checkPassword = ({
@@ -31,12 +28,12 @@ const formScheme = z
     email: z.string().email().trim().toLowerCase(),
     password: z
       .string()
-      .min(4)
+      .min(PASSWORD_MIN_LENGTH)
       .regex(
-        passwordRegex,
+        PASSWORD_REGEX,
         "A passwords must contain at least one UPPERCASE, lowercase, number and special characters.",
       ),
-    confirm_password: z.string().min(4),
+    confirm_password: z.string().min(PASSWORD_MIN_LENGTH),
   })
   .refine(checkPassword, {
     message: "Both password should be the same",
