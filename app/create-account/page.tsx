@@ -8,7 +8,7 @@ import { useActionState } from "react";
 import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
 
 export default function CreateAccount() {
-  const [state, action] = useActionState(createAccount, null);
+  const [state, dispatch] = useActionState(createAccount, null);
 
   return (
     <div className="flex flex-col gap-10 py-8 px-6">
@@ -16,7 +16,7 @@ export default function CreateAccount() {
         <h1 className="text-2xl ">안녕하세요!</h1>
         <h2 className="text-xl">Fill in the form below to join!</h2>
       </div>
-      <form className="flex flex-col gap-3" action={action}>
+      <form className="flex flex-col gap-3" action={dispatch}>
         <Input
           name="username"
           type="text"
