@@ -1,6 +1,10 @@
 "use server";
 import { z } from "zod"; // 백엔드에서 유효성 검사를 하기 유용한 라이브러리
-import { PASSWORD_REGEX, PASSWORD_MIN_LENGTH } from "@/lib/constants";
+import {
+  PASSWORD_REGEX,
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_REGEX_ERROR,
+} from "@/lib/constants";
 
 const checkUsername = (username: string) => !username.includes("potato");
 const checkPassword = ({
@@ -29,10 +33,7 @@ const formScheme = z
     password: z
       .string()
       .min(PASSWORD_MIN_LENGTH)
-      .regex(
-        PASSWORD_REGEX,
-        "A passwords must contain at least one UPPERCASE, lowercase, number and special characters.",
-      ),
+      .regex(PASSWORD_REGEX, PASSWORD_REGEX_ERROR),
     confirm_password: z.string().min(PASSWORD_MIN_LENGTH),
   })
   .refine(checkPassword, {
