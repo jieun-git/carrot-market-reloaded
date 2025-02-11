@@ -22,3 +22,6 @@ pnpm-debug.log*
 dist/
 out/
 node_modules/
+
+*.db
+*.db-journal

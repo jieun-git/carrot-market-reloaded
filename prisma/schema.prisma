@@ -1,8 +1,35 @@
-generator client {
-  provider = "prisma-client-js"
-}
+// prisma 는 우리가 작성한 코드를 DB가 이해할 수 있도록 SQL 로 번역
+// Scheme 변경 시
+// npx prisma studio 종료한 뒤 재 실행해야 제대로 반영됨
+// studio 종료 -> npx prisma migrate dev -> npx prisma studio
 
 datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id Int @id @default(autoincrement())
+  username String @unique
+  email String? @unique
+  password String?
+  phone String? @unique
+  github_id String? @unique
+  avatar String?
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  SMSToken SMSToken[]
+}
+
+model SMSToken {
+  id Int @id @default(autoincrement())
+  token String @unique
+  created_at DateTime @default(now())
+  updated_at DateTime @default(now())
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId Int
 }
