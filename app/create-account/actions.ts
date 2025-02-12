@@ -10,6 +10,7 @@ import bcrypt from "bcrypt";
 import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import getSession from "@/lib/session";
 
 const checkUsername = (username: string) => !username.includes("potato");
 const checkPassword = ({
@@ -99,14 +100,10 @@ const createAccount = async (prevState: any, formData: FormData) => {
           }
       })
 
-      const cookiesStore = await cookies()
+      const session = await getSession()
 
-      const cookie = await getIronSession(cookiesStore, {
-          cookieName: 'delicious-carrot',
-          password: process.env.COOKIE_PASSWORD!,
-      })
-      cookie.id = user.id
-      await cookie.save()
+      session.id = user.id
+      await session.save()
       redirect('/profile')
   }
 };
