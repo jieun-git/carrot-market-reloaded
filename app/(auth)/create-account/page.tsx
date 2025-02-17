@@ -3,7 +3,7 @@
 import Input from "@/components/input";
 import Button from "@/components/button";
 import SocialLogin from "@/components/social-login";
-import { createAccount } from "@/app/create-account/actions";
+import { createAccount } from "@/app/(auth)/create-account/actions";
 import { useActionState } from "react";
 import { PASSWORD_MIN_LENGTH } from "@/lib/constants";
 
