@@ -4,7 +4,7 @@ import { PhotoIcon } from "@heroicons/react/24/solid";
 import Input from "@/components/input";
 import Button from "@/components/button";
 import React, { useActionState, useState } from "react";
-import { uploadProduct } from "@/app/(tabs)/products/add/actions";
+import { uploadProduct } from "@/app/products/add/actions";
 export default function AddProduct() {
   const [preview, setPreview] = useState("");
   const [state, action] = useActionState(uploadProduct, null);
