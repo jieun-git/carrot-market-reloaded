@@ -8,40 +8,40 @@ ex) GET profile ----> middleware() ----> <Profile />
 (edge runtime: 모든 npm 모듈을 엑세스 할 수 없음. node.js 내부에서는 실행되지 않고 매우 제한된 버전의 node.js 에서 실행)
  */
 
-import {NextRequest, NextResponse} from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import getSession from "@/lib/session";
 
 interface Routes {
-    [key: string]: boolean;
+  [key: string]: boolean;
 }
 
 const publicOnlyUrls: Routes = {
-    "/": true,
-    "/login": true,
-    "/sms": true,
-    "/create-account": true,
-}
+  "/": true,
+  "/login": true,
+  "/sms": true,
+  "/create-account": true,
+};
 
 export async function middleware(request: NextRequest) {
-    const session = await getSession();
+  const session = await getSession();
 
-    const exists = publicOnlyUrls[request.nextUrl.pathname];
-    if (!session.id) {
-        // log out
-        if (!exists) {
-            // 로그인 안 되어 있는데 프로필 같은 페이지에 접근할 때
-            return NextResponse.redirect(new URL("/", request.url))
-        }
-    } else {
-        // login
-        if (exists) {
-            // 로그인된 상태인데 계정 생성 같은 페이지에 접근할 때
-            return NextResponse.redirect(new URL("/products", request.url))
-        }
+  const exists = publicOnlyUrls[request.nextUrl.pathname];
+  if (!session.id) {
+    // log out
+    if (!exists) {
+      // 로그인 안 되어 있는데 프로필 같은 페이지에 접근할 때
+      return NextResponse.redirect(new URL("/", request.url));
     }
+  } else {
+    // login
+    if (exists) {
+      // 로그인된 상태인데 계정 생성 같은 페이지에 접근할 때
+      return NextResponse.redirect(new URL("/home", request.url));
+    }
+  }
 }
 
 // middleware 가 실행되어야 하는 경로
 export const config = {
-    matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
-}
+  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+};
