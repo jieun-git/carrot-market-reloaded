@@ -30,6 +30,13 @@ async function getProduct(id: number) {
   return product;
 }
 
+export async function generateMataData({ params }: { params: { id: string } }) {
+  const product = await getProduct(Number(params.id));
+  return {
+    title: product?.title,
+  };
+}
+
 export default async function Modal({ params }: { params: { id: string } }) {
   const resolvedParams = await Promise.resolve(params);
   const id = Number(resolvedParams.id);
@@ -53,8 +60,8 @@ export default async function Modal({ params }: { params: { id: string } }) {
         >
           <div className="flex">
             <Image
-              width={320}
-              height={320}
+              width={300}
+              height={300}
               className="object-cover rounded-md"
               src={product?.photo as string}
               alt={product?.title as string}
