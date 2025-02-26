@@ -30,7 +30,7 @@ async function getProduct(id: number) {
   return product;
 }
 
-export async function generateMataData({ params }: { params: { id: string } }) {
+export async function generateMetadata({ params }: { params: { id: string } }) {
   const product = await getProduct(Number(params.id));
   return {
     title: product?.title,
