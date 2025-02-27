@@ -1,0 +1,42 @@
+[Cache]
+Caching
+    - 서버로부터 받은 데이터를 메모리에 저장해 놓는 것
+    - 저장한 정보를 재활용함으로써 동일한 API를 반복해서 요청하는 상황을 줄인다.
+    - 화면에 빠르게 원하는 정보를 표시하고 DB의 부담을 덜어준다.
+
+- revalidatePath
+   - 지정한 경로의 데이터만 캐시 업데이트 함.
+
+- revalidateTag
+   - 특정 캐시 태그에 대해 저장된 데이터만 업데이트 함.
+
+- Static, Dynamic 페이지
+
+ - ○ (Static) → 정적인 페이지로 미리 렌더링되어 배포됨 (빌드 시 HTML 생성)
+ - ƒ (Dynamic) → 동적인 페이지로 요청 시 서버에서 렌더링됨 (요청 시 서버에서 렌더링됨)
+
+모든 사용자에게 동일한 내용이 제공되는 페이지면: Static
+사용자에 따라 다른 내용이 제공될 수 있는 페이지면: Dynamic
+
+- generateStaticParams
+ Next.js 의 App Router 에서 동적 경로를 정적으로 생성할 때 사용하는 함수
+ 요청이 올 때마다 새로 생성하지 않고, 빌드 타임에 정적인 HTML 을 미리 생성하여 빠르게 제공하고 싶을 때 사용
+
+ ex) id 값이 1, 2, 3 인 페이지가 빌드 타임에 정적으로 생성
+ export async function generateStaticParams() {
+    return [
+        { id: '1' },
+        { id: '2' },
+        { id: '3' },
+    ]
+ }
+
+- dynamicParams
+ generateStaticParams 와 함께 사용되며, 특정 동적 경로가 미리 생성되지 않은 경우 어떻게 처리할 지를 제어
+
+  - dynamicParams: true (기본 값)
+   generateStaticParams 에서 제공하지 않은 동적 세그먼트도 요청 시 자동 생성, 사용자가 해당 Url 에 접근하면 서버에서 동적으로 렌더링하여 페이지 제공 가능
+  - dynamicParams: false
+   generateStaticParams 에서 반환되지 않은 동적 세그먼트는 404 페이지를 반환, 정적으로 미리 생성된 페이지 외에 접근 불가
+
+ => ex) 쇼핑몰에서 특정 상품에 사용자가 몰리는 경우, 해당 상품만 static page 로 만들고 나머지는 dynamicParams 적용
