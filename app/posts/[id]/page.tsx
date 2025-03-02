@@ -3,6 +3,7 @@ import db from "@/lib/db";
 import Image from "next/image";
 import { formatToTimeAgo } from "@/lib/utils";
 import { EyeIcon, HandThumbUpIcon } from "@heroicons/react/24/solid";
+import { HandThumbUpIcon as OutlinedHandThumbUpIcon } from "@heroicons/react/24/outline";
 import getSession from "@/lib/session";
 import { revalidatePath } from "next/cache";
 
@@ -104,7 +105,7 @@ export default async function PostDetail({
           width={28}
           height={28}
           className="size-7 rounded-full"
-          src={post.user.avatar!}
+          src={post.user.avatar || '/carrot.jpeg'}
           alt={post.user.username}
         />
         <div>
@@ -123,10 +124,13 @@ export default async function PostDetail({
         </div>
         <form action={isLiked ? dislikePost : likePost}>
           <button
-            className={`flex items-center gap-2 text-neutral-400 text-sm border border-neutral-400 rounded-full p-2 hover:bg-neutral-800 transition-colors`}
+            className={`flex items-center gap-2 text-neutral-400 
+            text-sm border border-neutral-400 rounded-full 
+            p-2 transition-colors
+            ${isLiked ? "bg-orange-500 text-white border-orange-500" : "hover:bg-neutral-800"}`}
           >
-            <HandThumbUpIcon className="size-5" />
-            <span>공감하기 ({post._count.likes})</span>
+            {isLiked ? <HandThumbUpIcon className="size-5" />: <OutlinedHandThumbUpIcon className="size-5" />}
+            {isLiked ? <span>({post._count.likes})</span> : <span>공감하기 ({post._count.likes})</span>}
           </button>
         </form>
       </div>
