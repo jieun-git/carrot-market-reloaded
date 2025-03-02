@@ -7,6 +7,7 @@ import Link from "next/link";
 import { formatToWon } from "@/lib/utils";
 import { revalidateTag } from "next/cache";
 import { unstable_cache as nextCache } from "next/dist/server/web/spec-extension/unstable-cache";
+import { redirect } from "next/navigation";
 
 async function getIsOwner(userId: number) {
   const session = await getSession();
@@ -86,6 +87,31 @@ export default async function ProductDetail({
     revalidateTag("xxx");
   };
 
+  const createChatRoom = async () => {
+    "use server";
+
+    const session = await getSession();
+
+    const room = await db.chatRoom.create({
+      data: {
+        users: {
+          connect: [
+            {
+              id: product.userId,
+            },
+            {
+              id: session.id,
+            },
+          ],
+        },
+      },
+      select: {
+        id: true,
+      },
+    });
+    redirect(`/chats/${room.id}`);
+  };
+
   return (
     <div className="pt-5">
       <div className="relative aspect-square">
@@ -126,12 +152,11 @@ export default async function ProductDetail({
             </button>
           </form>
         )}
-        <Link
-          className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold"
-          href={``}
-        >
-          채팅하기
-        </Link>
+        <form action={createChatRoom}>
+          <button className="bg-orange-500 px-5 py-2.5 rounded-md text-white font-semibold">
+            채팅하기
+          </button>
+        </form>
       </div>
     </div>
   );
