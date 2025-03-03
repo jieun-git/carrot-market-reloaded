@@ -42,7 +42,7 @@ const ChatRoomList = ({ id, users, messages, userId }: ChatRoomListProps) => {
           alt={user.username}
           width={50}
           height={50}
-          className="rounded-md"
+          className="rounded-full"
         />
       ) : (
         <UserIcon className="size-14 text-white" />
