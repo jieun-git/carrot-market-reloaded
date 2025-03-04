@@ -1,4 +1,4 @@
-  import type { Config } from "tailwindcss";
+import type { Config } from "tailwindcss";
 
 export default {
   content: [
@@ -6,6 +6,14 @@ export default {
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
-  theme: {},
+  theme: {
+    extend: {
+      fontFamily: {
+        roboto: "var(--roboto-text)",
+        rubik: "var(--rubik-text)",
+        metallica: "var(--metallica-text)",
+      },
+    },
+  },
   plugins: [require("@tailwindcss/forms")],
 } satisfies Config;
